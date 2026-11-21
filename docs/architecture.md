@@ -90,7 +90,7 @@ yet" and "nothing new since the last run".
 
 ## The installer and the plugin
 
-`cli/` is a tiny Node program (no dependencies). `npx better-oss init` checks
+`cli/` is a tiny Node program (no dependencies). `npx better-oss-cli init` checks
 prerequisites, runs `claude plugin install better-oss --marketplace
 mobeloper/better-oss`, and copies the four personal example files into your
 folder without overwriting. It never edits `settings.json`; the plugin's hooks

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 'use strict';
 
-// better-oss installer. `npx better-oss init`:
+// better-oss installer. `npx better-oss-cli init`:
 //   1. checks the programs the tools call (python3, git, gh, claude),
 //   2. installs the better-oss Claude Code plugin through the claude CLI,
 //   3. copies the shipped example files you are meant to make your own into
@@ -28,9 +28,9 @@ const PERSONAL_FILES = [
   'playbook.md',
 ];
 
-const HELP = `better-oss ${VERSION}
+const HELP = `better-oss-cli ${VERSION}
 
-Usage: better-oss init [options]
+Usage: better-oss-cli init [options]
 
 Installs the better-oss Claude Code plugin and copies the example files you
 are meant to make your own into your better-oss folder.

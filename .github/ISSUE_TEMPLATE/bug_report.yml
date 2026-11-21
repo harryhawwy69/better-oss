@@ -13,7 +13,7 @@ body:
       options:
         - A hook (voice-guard or ship-gate)
         - pr-monitor
-        - The installer (npx better-oss init)
+        - The installer (npx better-oss-cli init)
         - A slash command
         - A skill
         - defaults/ or examples/

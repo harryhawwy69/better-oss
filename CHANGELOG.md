@@ -23,7 +23,7 @@ First public release.
   move from your playbook.
 - Slash commands `/better-oss:init`, `/better-oss:ship-gate` and
   `/better-oss:monitor`.
-- `npx better-oss init`: checks prerequisites, installs the plugin, and copies the
+- `npx better-oss-cli init`: checks prerequisites, installs the plugin, and copies the
   example files into `~/.claude/better-oss/` without overwriting yours.
 - Prefilled example files in `defaults/` (voice guide, fit profile, search
   strategy, playbook, ship manifest, repo-memory template) and six input

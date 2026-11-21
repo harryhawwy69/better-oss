@@ -24,7 +24,7 @@ issue` and `help wanted` already exist on a new repo. Create the rest:
 ```text
 gh label create rubric    --color 5319e7 --description "A rubric, procedure or evidence-guide change"
 gh label create hooks     --color d93f0b --description "voice-guard or ship-gate"
-gh label create installer --color 0e8a16 --description "npx better-oss init"
+gh label create installer --color 0e8a16 --description "npx better-oss-cli init"
 gh label create monitor   --color 1d76db --description "pr-monitor"
 gh label create needs-repro --color fbca04 --description "Waiting for steps to reproduce"
 for s in issue-scout issue-select repro-check plan-check pr-precheck; do
@@ -100,7 +100,7 @@ Releases are manual until a release workflow exists.
 4. Merge to `main`, then tag and release on GitHub: tag `vX.Y.Z` on the merge
    commit, with the notes written from the merged pull requests.
 5. Publish the installer: `cd cli && npm publish` (needs `npm login` and your
-   second factor). Then check `npx better-oss@latest --version`.
+   second factor). Then check `npx better-oss-cli@latest --version`.
 6. Users get the plugin update with `claude plugin update better-oss`.
 
 ## Dependabot

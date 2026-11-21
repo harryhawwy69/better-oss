@@ -39,7 +39,7 @@ flowchart LR
 ## Install
 
 ```sh
-npx better-oss init
+npx better-oss-cli init
 ```
 
 That checks your prerequisites, installs the plugin, and copies the example

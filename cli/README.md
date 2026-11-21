@@ -1,11 +1,11 @@
-# better-oss
+# better-oss-cli
 
 Installer for the [better-oss](https://github.com/mobeloper/better-oss) Claude
 Code plugin: skills and guardrail hooks for making robust, reliable open
 source contributions.
 
 ```sh
-npx better-oss init
+npx better-oss-cli init
 ```
 
 `init` does three things, and changes nothing else:
