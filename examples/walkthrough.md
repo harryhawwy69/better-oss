@@ -41,7 +41,7 @@ rubrics are built to find, and the kind a newcomer can finish.
 
 ## Try it on your own issue
 
-1. Copy the defaults you need with `npx better-oss init`, then edit your
+1. Copy the defaults you need with `/better-oss:init`, then edit your
    [fit profile](../defaults/fit-profile.md) and
    [search strategy](../defaults/search-strategy.md).
 2. Run `/better-oss:issue-scout` for a scan, or `/better-oss:issue-select`

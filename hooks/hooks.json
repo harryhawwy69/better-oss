@@ -1,0 +1,29 @@
+{
+  "description": "better-oss guardrails: hold outgoing comments to your voice guide, and run your repo's checks plus pr-precheck before a pull request opens.",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/core/voice_guard/check_voice.py\"",
+            "timeout": 180,
+            "statusMessage": "voice-guard: holding outgoing words against your voice guide"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/core/ship_gate/check_gate.py\"",
+            "timeout": 1800,
+            "statusMessage": "ship-gate: running your manifest's checks and pr-precheck on this branch"
+          }
+        ]
+      }
+    ]
+  }
+}
