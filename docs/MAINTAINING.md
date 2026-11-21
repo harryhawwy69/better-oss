@@ -88,7 +88,8 @@ By area:
 Releases are manual until a release workflow exists.
 
 1. Decide the version (`X.Y.Z`). Set it in **both** `.claude-plugin/plugin.json`
-   and `cli/package.json`; they must match.
+   and `cli/package.json`; they must match. Move the `Unreleased`
+   entries in `CHANGELOG.md` under a new dated `X.Y.Z` heading.
 2. Run every check in `AGENTS.md`, and `cd cli && npm pack --dry-run` (the
    `prepack` step copies `defaults/` into the package; the list should show it).
 3. Test a clean install against an empty config, from the working tree:
