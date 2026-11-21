@@ -5,6 +5,7 @@ contributions, as a [Claude Code](https://claude.com/claude-code) plugin.
 
 ** Open For Contributions! **
 
+![CI](https://github.com/mobeloper/better-oss/actions/workflows/ci.yml/badge.svg)
 ![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue)
 ![Status: pre-1.0](https://img.shields.io/badge/status-pre--1.0-orange)
 
@@ -103,8 +104,9 @@ More in [docs/architecture.md](docs/architecture.md).
 - Pre-1.0 (`0.0.1`). The rubrics and files may change.
 - Built and tested on macOS. The hooks call `python3`, so Windows is untested
   and probably needs work ([see the open issues](https://github.com/mobeloper/better-oss/issues)).
-- There is no automated test suite for the rubrics yet; changes are judged on
-  manual before/after runs.
+- The scripts, hooks, skills' structure and docs have automated tests, but the
+  rubrics' *judgments* do not: a rubric change is judged on manual before/after
+  runs.
 - Grading calls the model. In the author's runs a candidate costs roughly
   $0.20, so a scan of five is about a dollar; your cost depends on your setup.
 - A single maintainer, so replies are best effort.

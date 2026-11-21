@@ -30,7 +30,8 @@ Paste the commands you ran and their output (not "tested locally"):
 
 ## Checklist
 
-- [ ] `ruff check core` passes
+- [ ] `ruff check .` and `python3 -m pytest` pass
+- [ ] `python3 scripts/leak_check.py` passes
 - [ ] `cd cli && npm test` passes
 - [ ] `claude plugin validate .` and `claude plugin validate skills` pass
 - [ ] No symlinks, local paths, emails or tokens in committed files

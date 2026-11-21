@@ -6,6 +6,22 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- A test suite (`pytest`, 72 tests, no model calls) covering the hooks' exit
+  codes and fail-closed behavior, the plugin and hook manifests, every skill's
+  structure and rubric, the shipped defaults, the docs and their links, and the
+  release tooling.
+- CI on every push and pull request: `ruff` and `pytest` on Python 3.9 and 3.13,
+  the installer tests on Node 18 and 22, and a personal-data and symlink check.
+- `scripts/leak_check.py`: fails on home-directory paths, email addresses, tokens
+  and symlinks; project-private terms are supplied through environment variables,
+  not committed.
+- A release workflow: on a `vX.Y.Z` tag it verifies the version everywhere,
+  creates the GitHub release from this changelog, and publishes the installer to
+  npm after a maintainer approves it.
+- `ruff.toml` (targets Python 3.9) and `pytest.ini`.
+
 ## [0.0.1] - 2026-11-21
 
 First public release.

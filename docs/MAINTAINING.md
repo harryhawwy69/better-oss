@@ -14,8 +14,8 @@ Do these by hand in the GitHub UI or with `gh`; none of it can live in the repo.
 - Code security: enable **Private vulnerability reporting** (`SECURITY.md` and
   the Code of Conduct send reports there), **Dependabot alerts** and
   **Dependabot security updates**.
-- Branches: add a rule for `main` that requires a pull request before merging.
-  When CI exists, also require its status checks. Pick one merge style and keep
+- Branches: add a rule for `main` that requires a pull request before merging, and
+  (after CI has run once) requires its checks; the names are listed under "CI". Pick one merge style and keep
   it (the history so far uses merge commits).
 
 **Labels.** `bug`, `enhancement`, `question`, `documentation`, `good first
@@ -82,13 +82,16 @@ By area:
 
 ## Releasing
 
-Releases are manual until a release workflow exists.
+A release is a tag. The `Release` workflow does the rest, and the npm step waits
+for your approval.
 
 1. Decide the version (`X.Y.Z`). Set it in **both** `.claude-plugin/plugin.json`
-   and `cli/package.json`; they must match. Move the `Unreleased`
-   entries in `CHANGELOG.md` under a new dated `X.Y.Z` heading.
-2. Run every check in `AGENTS.md`, and `cd cli && npm pack --dry-run` (the
-   `prepack` step copies `defaults/` into the package; the list should show it).
+   and `cli/package.json`; they must match. Move the `Unreleased` entries in
+   `CHANGELOG.md` under a new dated `## [X.Y.Z] - YYYY-MM-DD` heading.
+2. Run the checks locally (`ruff check .`, `python3 -m pytest`,
+   `python3 scripts/leak_check.py`, `cd cli && npm test`) and
+   `cd cli && npm pack --dry-run` (the `prepack` step copies `defaults/` into the
+   package; the list should show it).
 3. Test a clean install against an empty config, from the working tree:
 
    ```text
@@ -97,11 +100,62 @@ Releases are manual until a release workflow exists.
    claude plugin list
    ```
 
-4. Merge to `main`, then tag and release on GitHub: tag `vX.Y.Z` on the merge
-   commit, with the notes written from the merged pull requests.
-5. Publish the installer: `cd cli && npm publish` (needs `npm login` and your
-   second factor). Then check `npx better-oss-cli@latest --version`.
-6. Users get the plugin update with `claude plugin update better-oss`.
+4. Merge to `main`, then tag the merge commit and push the tag:
+
+   ```text
+   git tag vX.Y.Z && git push origin vX.Y.Z
+   ```
+
+5. Watch the workflow (Actions tab):
+   - **verify** checks that the tag, `plugin.json`, `cli/package.json` and the
+     changelog heading agree (`python3 scripts/release_tools.py check vX.Y.Z`),
+     then runs the tests.
+   - **release** creates the GitHub release with notes from the changelog (marked
+     a pre-release while the version is `0.x`).
+   - **publish** runs `npm publish --provenance` once you approve the
+     `npm-publish` environment.
+6. Check `npx better-oss-cli@latest --version`. Users get the plugin update with
+   `claude plugin update better-oss`.
+
+### One-time setup for the automated publish
+
+- **Environment.** Settings > Environments > New environment, named exactly
+  `npm-publish`, with yourself as a required reviewer. Do this *before* the first
+  tag: GitHub creates a missing environment with no protection, and then the
+  publish job would not wait for anyone.
+- **npm trusted publishing.** npm can accept a publish from this workflow with no
+  stored token. A package must already exist to configure it, so the very first
+  version is published by hand (`cd cli && npm publish --access public`, which
+  asks for your npm login and second factor). Then on npmjs.com open the
+  package's Settings, add a Trusted Publisher for GitHub Actions with repository
+  `mobeloper/better-oss`, workflow `release.yml` and environment `npm-publish`.
+  The workflow uses Node 24 because trusted publishing needs a recent npm. Check
+  npm's current documentation when you set it up, as this feature is new.
+- **Manual fallback.** If the workflow's publish step is not set up, publish by
+  hand from `cli/` after the tag exists; the rest of the release is unchanged.
+
+## CI
+
+`ci.yml` runs on every push to `main` and every pull request: `ruff` and `pytest`
+on Python 3.9 and 3.13, the installer tests on Node 18 and 22, and the leak
+check. After it has run once, require these checks in the `main` branch rule:
+`Python 3.9`, `Python 3.13`, `Personal data and symlinks`, `Installer (Node 18)`
+and `Installer (Node 22)`.
+
+**Project-private terms.** The leak check built into the repo only knows
+universal rules (home paths, emails, tokens, symlinks). If there are words that
+must never appear in the repository, add them as repository secrets so they are
+never committed:
+
+- `LEAK_EXTRA_PATTERNS`: a case-insensitive regex of those terms (for example
+  `term one|term two`).
+- `LEAK_ALLOW_FILES`: comma-separated repo paths exempt from those extra terms,
+  such as a file that carries an author credit.
+
+Run it the same way locally:
+`LEAK_EXTRA_PATTERNS='term one|term two' python3 scripts/leak_check.py`.
+Pull requests from forks do not receive secrets, so only the universal rules run
+for them; recheck those PRs yourself before merging.
 
 ## Dependabot
 

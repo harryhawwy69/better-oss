@@ -20,11 +20,51 @@ are welcome; see [SUPPORT.md](SUPPORT.md).
   copy and rewrite; `examples/` is a real worked run. A second worked example
   from a different repo or language is very welcome.
 - **Fix a script or the installer.** `core/` (Python, standard library only) and
-  `cli/` (Node 18+, no dependencies).
+  `cli/` (the `better-oss-cli` npm package; Node 18+, no dependencies).
 - **Add a skill.** Open an issue first so we can agree it belongs in the pipeline.
 - **Improve the docs.**
 
 Issues labelled `good first issue` and `help wanted` are good places to start.
+
+## What must not go in a contribution
+
+Everything you add here is public and permanent, and the people who install
+better-oss read and run it. So keep these out of every file you contribute
+(code, docs, rubrics, defaults, examples, tests, and pull request text):
+
+- **Personally identifiable information.** Your real name, email address, phone
+  number, home address, employer, or private account details; tokens and keys;
+  anything private about another person; and local paths, because a
+  home-directory path spells out your username. Credit comes through your git
+  author line, not through text in the files. What is fine: the URL of a public
+  issue or pull request you really worked on, and the public handles shown there.
+- **Your personal open-source contribution preferences.** Your fit profile (your
+  languages, organizations, time budget, operating system), your search strategy
+  (your queries and repository lists), your voice guide, your playbook, and your
+  ship manifests describe *you*. They belong in your own folder
+  (`~/.claude/better-oss/`, or your clone for per-repo files, kept out of git
+  with `.git/info/exclude`). Do not add them to `defaults/`, a skill, or
+  `examples/`.
+
+What that means for the shared files:
+
+- **`defaults/`** are the example files users copy and rewrite, and each opens
+  with an `EXAMPLE:` comment. Improve them for everyone; do not replace them with
+  your own, and keep the comment.
+- **`examples/`** show a real run. Use public artifacts only, and strip anything
+  personal from your drafts before you copy them in.
+- **Rubrics** carry shared judgment, not taste. A rubric change must be justified
+  by a case the tool decided wrongly (see "Changing a rubric"), not by how you
+  like to work. If a change only reflects a preference, it belongs in your fit
+  profile, which ranks issues without changing any verdict.
+
+Before you push, look at your own diff:
+
+```text
+git diff main --stat
+git ls-files -s | awk '$1==120000'                  # no symlinks (prints nothing)
+grep -rIn '/[U]sers/\|/[h]ome/' . --exclude-dir=.git --exclude-dir=node_modules
+```
 
 ## Set up
 
@@ -52,13 +92,19 @@ while developing.
 ## Before you open a pull request
 
 ```text
-ruff check core
+ruff check .
+python3 -m pytest
+python3 scripts/leak_check.py
 (cd cli && npm test)
 claude plugin validate .
 claude plugin validate skills
 ```
 
-Then exercise the thing you changed for real: run the skill on a real issue or
+The same checks run in CI on every pull request (`ruff` and `pytest` on Python
+3.9 and 3.13, the installer tests on Node 18 and 22). None of them calls a model.
+
+Read your own diff for personal information and personal preferences (see "What
+must not go in a contribution"). Then exercise the thing you changed for real: run the skill on a real issue or
 branch, or pipe a hook command into the script (see [AGENTS.md](AGENTS.md)).
 
 ## Branches, commits and pull requests

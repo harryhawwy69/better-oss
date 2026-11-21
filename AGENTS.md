@@ -27,7 +27,9 @@ Pipeline: `issue-scout` -> `issue-select` -> `repro-check` -> `plan-check` ->
 ## Commands to run before a PR
 
 ```text
-ruff check core                       # Python lint
+ruff check .                          # Python lint (targets Python 3.9)
+python3 -m pytest                     # scripts, hooks, skills, docs (no model calls)
+python3 scripts/leak_check.py         # no home paths, emails, tokens or symlinks
 cd cli && npm test                    # installer tests (node --test)
 claude plugin validate .              # plugin manifest
 claude plugin validate skills         # skill files

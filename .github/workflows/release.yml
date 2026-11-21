@@ -1,0 +1,78 @@
+name: Release
+
+# Runs when a version tag is pushed (git tag vX.Y.Z && git push origin vX.Y.Z).
+# 1. verify:  the tag, plugin.json, cli/package.json and CHANGELOG.md agree, and tests pass
+# 2. release: create the GitHub release, with notes taken from CHANGELOG.md
+# 3. publish: npm publish, but only after a maintainer approves the `npm-publish`
+#             environment (see docs/MAINTAINING.md for the one-time setup)
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Tag, versions and changelog agree
+        run: python scripts/release_tools.py check "$GITHUB_REF_NAME"
+      - name: Tests
+        run: |
+          python -m pip install --upgrade pip ruff pytest
+          ruff check .
+          python -m pytest
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Installer tests
+        run: npm test
+        working-directory: cli
+
+  release:
+    needs: verify
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Create the GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "A release for $TAG already exists; leaving it alone."
+            exit 0
+          fi
+          python scripts/release_tools.py notes "${TAG#v}" > notes.md
+          flags=""
+          case "$TAG" in v0.*) flags="--prerelease";; esac
+          gh release create "$TAG" --verify-tag --title "$TAG" --notes-file notes.md $flags
+
+  publish:
+    needs: verify
+    runs-on: ubuntu-latest
+    # A maintainer must approve this environment before the job runs.
+    environment: npm-publish
+    permissions:
+      contents: read
+      id-token: write   # npm trusted publishing (OIDC) and provenance
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          registry-url: "https://registry.npmjs.org"
+      - name: Publish the installer
+        run: npm publish --access public --provenance
+        working-directory: cli
