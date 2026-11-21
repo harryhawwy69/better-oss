@@ -61,9 +61,29 @@ test('--dry-run changes nothing', () => {
   assert.match(r.stdout, /would created/);
 });
 
-test('--dry-run shows the plugin command and does not run it', () => {
-  const r = cli(['--dry-run', '--home', path.join(tmp(), 'x'), '--marketplace', '/some/path', '--scope', 'project']);
+test('--dry-run shows the plugin command when claude is missing', (t) => {
+  const root = tmp();
+  t.after(() => fs.rmSync(root, { recursive: true, force: true }));
+  const home = path.join(root, 'data');
+  const r = cli(['--dry-run', '--home', home, '--marketplace', '/some/path', '--scope', 'project'], { PATH: root });
+  assert.strictEqual(r.status, 0, r.stderr);
   assert.match(r.stdout, /claude plugin install better-oss --marketplace \/some\/path --scope project/);
+  assert.match(r.stdout, /MISSING\s+claude/);
+  assert.match(r.stdout, /note: fix the MISSING prerequisites/);
+  assert.strictEqual(fs.existsSync(home), false);
+});
+
+test('--dry-run previews but never installs with claude on PATH', { skip: process.platform === 'win32' }, (t) => {
+  const root = tmp();
+  t.after(() => fs.rmSync(root, { recursive: true, force: true }));
+  const log = path.join(root, 'calls');
+  fs.writeFileSync(path.join(root, 'claude'), '#!/bin/sh\nprintf "%s\\n" "$*" >> "$FAKE_CLAUDE_LOG"\nexit 0\n', { mode: 0o755 });
+  const home = path.join(root, 'data');
+  const r = cli(['--dry-run', '--home', home], { PATH: root, FAKE_CLAUDE_LOG: log });
+  assert.strictEqual(r.status, 0, r.stderr);
+  assert.match(r.stdout, /plugin: claude plugin install better-oss/);
+  assert.strictEqual(fs.readFileSync(log, 'utf8'), '--version\n', 'only the prerequisite probe runs');
+  assert.strictEqual(fs.existsSync(home), false);
 });
 
 test('BETTER_OSS_HOME is honored', () => {
