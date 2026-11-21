@@ -1,0 +1,11 @@
+{
+  "name": "better-oss",
+  "version": "0.0.1",
+  "description": "Skills and guardrail hooks for making robust, reliable open source contributions: find an issue, check your claim, plan, and ship a pull request maintainers will want to review.",
+  "author": {
+    "name": "Eric Michel"
+  },
+  "repository": "https://github.com/mobeloper/better-oss",
+  "license": "Apache-2.0",
+  "keywords": ["open-source", "contributions", "agents", "github", "workflow"]
+}

@@ -1,0 +1,13 @@
+{
+  "name": "better-oss",
+  "owner": {
+    "name": "Eric Michel"
+  },
+  "plugins": [
+    {
+      "name": "better-oss",
+      "source": "./",
+      "description": "Skills and guardrail hooks for making robust, reliable open source contributions."
+    }
+  ]
+}
