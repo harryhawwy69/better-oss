@@ -1,0 +1,70 @@
+name: Bug report
+description: Something in better-oss does not work (a script, a hook, the installer, or a command).
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        If a **skill graded something wrongly** (a verdict you disagree with), use the "Rubric or skill change" form instead. If it is a **security problem**, do not file it here: see SECURITY.md.
+  - type: dropdown
+    id: component
+    attributes:
+      label: Which part is broken?
+      options:
+        - A hook (voice-guard or ship-gate)
+        - pr-monitor
+        - The installer (npx better-oss init)
+        - A slash command
+        - A skill
+        - defaults/ or examples/
+        - Docs
+        - Not sure
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What you ran and what you saw. Paste the exact output or error.
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: How to reproduce
+      description: Commands, in order, starting from a clean state if you can.
+      render: text
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: better-oss version
+      description: From `claude plugin list`, or the version in .claude-plugin/plugin.json.
+      placeholder: "0.0.1"
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, `claude --version`, `python3 --version`, `node --version` (if the installer is involved).
+      placeholder: "macOS 15, Claude Code 2.1.x, Python 3.12"
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before you submit
+      options:
+        - label: I searched existing issues and did not find this one.
+          required: true
+        - label: This is not a security problem (those go through SECURITY.md).
+          required: true

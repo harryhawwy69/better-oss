@@ -1,0 +1,62 @@
+name: Rubric or skill change
+description: A skill graded a real issue, plan, repro, or pull request wrongly, or a rubric check should change.
+labels: ["rubric"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The rubrics are the judgment in this project, so a change needs a real case. Please fill in all of it; a vague report cannot be acted on.
+  - type: dropdown
+    id: skill
+    attributes:
+      label: Which skill?
+      options:
+        - issue-scout
+        - issue-select
+        - repro-check
+        - plan-check
+        - pr-precheck
+    validations:
+      required: true
+  - type: input
+    id: check
+    attributes:
+      label: Which check (name from rubric.md)
+      placeholder: "ai-disclosure"
+    validations:
+      required: true
+  - type: textarea
+    id: case
+    attributes:
+      label: The case
+      description: The issue, plan, repro, or PR it graded. A public URL is best; otherwise paste the relevant text with private details removed.
+    validations:
+      required: true
+  - type: textarea
+    id: current
+    attributes:
+      label: What it graded (current behavior)
+      description: The verdict and the grade and evidence line for that check, pasted from the run.
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What it should have graded, and why
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change (optional)
+      description: The wording change to the check, the evidence guide, or the verdict rule, if you have one.
+  - type: checkboxes
+    id: model
+    attributes:
+      label: Before you submit
+      options:
+        - label: I ran this on Sonnet, the model the rubrics are tuned on, or I say below which model I used.
+          required: true
+        - label: I read "Changing a rubric" in CONTRIBUTING.md.
+          required: true

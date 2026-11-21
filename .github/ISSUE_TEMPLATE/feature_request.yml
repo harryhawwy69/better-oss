@@ -1,0 +1,38 @@
+name: Feature request
+description: Suggest an improvement or a new capability.
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What are you trying to do that is hard or impossible today? Describe the situation before the solution.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What you would like
+      description: What should better-oss do? An example of the command or output helps.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives you considered
+  - type: dropdown
+    id: pipeline
+    attributes:
+      label: Does it change the pipeline?
+      description: Adding, removing or reordering a skill, a hook, or a pin (model, read-only monitor, fail-closed hooks) is discussed here first.
+      options:
+        - "No: a fix or small addition"
+        - "Yes: it adds or changes a skill, hook, or pin"
+    validations:
+      required: true
+  - type: checkboxes
+    id: help
+    attributes:
+      label: Helping out
+      options:
+        - label: I would be willing to send a pull request for this.
