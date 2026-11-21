@@ -1,6 +1,6 @@
 <!--
 EXAMPLE: this is the shipped example fit profile. Copy it to
-~/.claude/better-oss/fit-profile.md (`npx better-oss init` does this) and
+~/.claude/better-oss/fit-profile.md (`/better-oss:init` does this) and
 rewrite it for yourself: your languages, the kinds of repos you like,
 what to avoid, how much time you have, and your platform. issue-scout
 and issue-select read it to rank issues the rubric already accepts; it

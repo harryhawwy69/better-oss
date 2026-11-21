@@ -1,6 +1,6 @@
 <!--
 EXAMPLE: this is the shipped example search strategy. Copy it to
-~/.claude/better-oss/search-strategy.md (`npx better-oss init` does this)
+~/.claude/better-oss/search-strategy.md (`/better-oss:init` does this)
 and rewrite the queries for yourself. issue-scout runs exactly the
 queries and filters below, nothing else.
 

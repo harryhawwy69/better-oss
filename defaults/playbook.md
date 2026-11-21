@@ -1,6 +1,6 @@
 <!--
 EXAMPLE: the shipped example playbook. Copy it to
-~/.claude/better-oss/playbook.md (`npx better-oss init` does this) and
+~/.claude/better-oss/playbook.md (`/better-oss:init` does this) and
 rewrite every rule so it is yours. The PR monitor drafts your next move from
 this file, so until you edit it the monitor follows the rules below, not
 yours. It will not draft while any of the four sections is empty, because a
