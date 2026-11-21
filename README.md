@@ -54,6 +54,13 @@ run this inside Claude Code, then `/better-oss:init`:
 You need Claude Code, Python 3.9+, `git`, and `gh` (logged in). The installer
 needs Node 18+. See [cli/README.md](cli/README.md) for its options.
 
+**Environment notes.** Nothing needs a virtual environment: the Python code uses
+only the standard library. `python3 core/init.py --check` (or `/better-oss:init
+--check` in Claude Code) tells you whether `git`, `gh`, `claude` and your `gh`
+login are all in place. The skills call the `claude` CLI, so it must be logged in
+(or have an API key configured). Your own files live in `~/.claude/better-oss/`;
+set `BETTER_OSS_HOME` to use a different folder.
+
 ## Five-minute start
 
 1. **Make the voice guide yours.** Open `~/.claude/better-oss/voice-guide.md`

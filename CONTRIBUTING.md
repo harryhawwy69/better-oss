@@ -77,8 +77,21 @@ cd better-oss
 claude --plugin-dir .          # loads this checkout as the plugin
 ```
 
-Edit, then run `/reload-plugins` in the session. Two habits keep your own setup
-out of the way:
+Edit, then run `/reload-plugins` in the session.
+
+**Environment notes**
+
+- **No virtual environment is required.** The Python code uses only the standard
+  library. To run the checks, install the two dev tools:
+  `python3 -m pip install ruff pytest` (a virtual environment is fine if you
+  prefer one).
+- **Check your setup** with `python3 core/init.py --check`. It reports whether
+  `git`, `gh`, `claude` and your `gh` login are in place.
+- **Login only matters for model runs.** Skill runs and the evals call the
+  `claude` CLI, so it must be logged in (or have an API key configured). Lint and
+  the tests make no model calls and need no login.
+
+Two habits keep your own setup out of the way:
 
 - Set `BETTER_OSS_HOME` to an empty folder when you run a hook or script
   directly, so your own voice guide and playbook are not read.
@@ -109,7 +122,14 @@ branch, or pipe a hook command into the script (see [AGENTS.md](AGENTS.md)).
 
 ## Branches, commits and pull requests
 
-- Branch from `main`; name it `<type>/<short-slug>`, for example `fix/gate-windows-path`.
+- Branch from `main`, and name the branch `<type>/<issue-number>-<short-title>`:
+  lowercase, words joined with hyphens, a short title (about 50 characters at
+  most). The type says what kind of change it is: `fix`, `feature`, `docs`,
+  `rubric`, `test` or `chore`. Examples: `fix/12-gate-windows-path`,
+  `feature/31-installer-doctor`, `rubric/7-shipped-recently-arithmetic`,
+  `docs/5-go-search-strategy`. With no issue, leave the number out:
+  `docs/clarify-env-setup`. The branch type is separate from the commit prefix
+  below.
 - Commit messages start with `[add]`, `[update]` or `[fix]`.
 - Please sign off your commits (`git commit -s`) to certify the
   [Developer Certificate of Origin](https://developercertificate.org/). This is
@@ -117,19 +137,34 @@ branch, or pipe a hook command into the script (see [AGENTS.md](AGENTS.md)).
 - Keep a pull request to one change. A maintainer asking you to split or merge
   work is right, as the tools themselves tell you about other people's repos.
 - Fill in the pull request template. It asks how you tested and how AI was used.
+- **What CI checks.** Branch names are a convention that keeps the history
+  readable; CI does not check them. CI runs `ruff` and `pytest` (Python 3.9 and
+  3.13), the personal-data and symlink check, and the installer tests (Node 18 and
+  22). Run the same commands from "Before you open a pull request" so your pull
+  request is green the first time.
 
 ## Changing a rubric
 
-The skills have no automated evaluation suite, so the evidence is a manual
-before and after on real cases. A rubric pull request must show:
+The skills have an evaluation suite in [`evals/`](evals/): frozen cases, each a
+real worked run with one deliberate flaw, and the check that must catch it. It
+runs locally and is not yet a required CI check, so run it yourself:
+
+```text
+python3 evals/run_evals.py --dry-run                    # validates the cases; no model, no cost
+python3 evals/run_evals.py --skill plan-check           # runs one skill's cases (one model call each)
+```
+
+A rubric pull request must show:
 
 1. **The case:** the issue, PR or draft that was graded wrongly (a URL, or the
    text if it is private), and the check that got it wrong.
 2. **Before:** the verdict and the check grade the current rubric gives.
 3. **After:** the verdict and grade with your change, from a real run.
 4. **No collateral damage:** the same run on at least one case that already
-   graded correctly, with the grade unchanged. [`examples/`](examples/) has real
-   inputs you can reuse.
+   graded correctly, with the grade unchanged. Running the skill's evals shows
+   this for every case at once, and [`examples/`](examples/) has real inputs you
+   can reuse. If your change is for a case the suite does not cover, add a case
+   under `evals/cases/<skill>/`.
 
 Change check names, pass conditions, weights or the verdict rule only on
 purpose: other files (the evidence guides and the ship-gate) refer to them by

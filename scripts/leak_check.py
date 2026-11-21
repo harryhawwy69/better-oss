@@ -33,7 +33,7 @@ HARD = {
         r"|-----BEGIN [A-Z ]*PRIVATE KEY-----"
     ),
 }
-EMAIL = re.compile(r"(?<![\w.+-])([\w.+-]+)@([\w-]+(?:\.[\w-]+)+)")
+EMAIL = re.compile(r"(?<![\w.+-])([A-Za-z0-9][\w.+-]*)@([\w-]+(?:\.[\w-]+)+)")  # a diff line like "+@pytest.mark.x" is not an address
 FAKE_EMAIL_DOMAINS = ("example.com", "example.org", "example.net", "users.noreply.github.com")
 ALLOW_MARK = "leak-check: allow"
 SELF = "scripts/leak_check.py"

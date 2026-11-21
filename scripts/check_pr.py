@@ -164,7 +164,7 @@ def main():
     pr = json.loads(Path(args.event).read_text())["pull_request"]
     files, lines, commits = gather(args.base, args.head)
     login = (pr.get("user") or {}).get("login", "")
-    findings = evaluate(pr.get("title", ""), pr.get("body") or "", [l["name"] for l in pr.get("labels", [])],
+    findings = evaluate(pr.get("title", ""), pr.get("body") or "", [label["name"] for label in pr.get("labels", [])],
                         files, commits, lines, draft=bool(pr.get("draft")), bot=login.endswith("[bot]"))
     for f in findings:
         print(f"::{f.level} title={f.code}::{f.message}")

@@ -11,7 +11,7 @@ COMMUNITY = ["README.md", "CONTRIBUTING.md", "CODE_OF_CONDUCT.md", "SECURITY.md"
 
 def tracked_markdown():
     out = subprocess.run(["git", "ls-files", "*.md"], cwd=ROOT, text=True, capture_output=True).stdout.split()
-    return [ROOT / p for p in out if not p.startswith("defaults/")]
+    return [ROOT / p for p in out if not p.startswith(("defaults/", "evals/bases/"))]  # bases quote another repo verbatim
 
 
 def test_community_and_docs_files_exist():

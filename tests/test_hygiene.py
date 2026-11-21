@@ -70,3 +70,8 @@ def test_allow_marker_skips_a_line(tmp_path):
 def test_no_tracked_symlinks_in_this_repo():
     out = subprocess.run(["git", "ls-files", "-s"], cwd=ROOT, text=True, capture_output=True).stdout
     assert not [ln for ln in out.splitlines() if ln.startswith("120000")]
+
+
+def test_a_diff_line_with_a_decorator_is_not_an_email(tmp_path):
+    lines = ["+@pytest.mark.parametrize('x', [1])", "@pytest.mark.skip"]
+    assert leak(make_repo(tmp_path, {"d.md": "\n".join(lines) + "\n"})).returncode == 0
