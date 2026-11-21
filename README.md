@@ -120,9 +120,12 @@ More in [docs/architecture.md](docs/architecture.md).
 
 ## Roadmap
 
-- A standalone CLI that runs the same skills outside Claude Code (for CI).
-- An optional, dev-only evaluation harness for the rubrics.
-- Windows support for the hooks.
+The path to the first production release, and where to help, is in
+[docs/ROADMAP.md](docs/ROADMAP.md); every item is a
+[GitHub issue](https://github.com/mobeloper/better-oss/issues). In short: get CI
+green and enforced, test the hooks without a real model, gate rubric changes with
+the evals, release `better-oss-cli` through the automated workflow, and then
+Windows support and a standalone CLI.
 
 ## Contributing
 
