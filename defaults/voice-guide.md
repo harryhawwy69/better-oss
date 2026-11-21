@@ -1,0 +1,1 @@
+/Users/EricMichel/.claude/voice-guard/voice-guide.md
