@@ -1,0 +1,41 @@
+{
+  "item": "https://github.com/maziyarpanahi/openmed/issues/5295",
+  "checks": [
+    {
+      "name": "names-the-issue",
+      "grade": "pass",
+      "evidence": "names successive_releases_v1.jsonl, two 20-40 row releases, keyed privacy-unit column, per-release kanon_report test, README intersection note, composition scoring out of scope"
+    },
+    {
+      "name": "environment-detail",
+      "grade": "unclear",
+      "evidence": "not yet applicable: claim-only draft"
+    },
+    {
+      "name": "steps-rerunnable",
+      "grade": "unclear",
+      "evidence": "not yet applicable: claim-only draft"
+    },
+    {
+      "name": "Analysis-claim",
+      "grade": "unclear",
+      "evidence": "not yet applicable: claim-only draft"
+    },
+    {
+      "name": "expected-behaviour",
+      "grade": "unclear",
+      "evidence": "not yet applicable: claim-only draft"
+    },
+    {
+      "name": "actual-behaviour",
+      "grade": "unclear",
+      "evidence": "not yet applicable: claim-only draft"
+    },
+    {
+      "name": "communication",
+      "grade": "pass",
+      "evidence": "issue-specific, no praise or urgency, states synthetic-only rule from CONTRIBUTING.md, claims no finished work"
+    }
+  ],
+  "verdict": "accept"
+}
