@@ -1,0 +1,17 @@
+{
+  "base": "pr-precheck",
+  "describe": "A leftover debug print and commented-out code ride along in the test file.",
+  "ops": [
+    {
+      "in": "The diff",
+      "regex": "\\+    meta, releases = _load\\(\\)\\n\\+\\n\\+    report = ",
+      "with": "+    meta, releases = _load()\n+    print(\"DEBUG\", release, len(releases[release]))\n+    # report = kanon_report(releases[release])  # old call\n+\n+    report = "
+    }
+  ],
+  "expect": {
+    "verdict": "reject",
+    "must_not_pass": [
+      "clean-diff"
+    ]
+  }
+}

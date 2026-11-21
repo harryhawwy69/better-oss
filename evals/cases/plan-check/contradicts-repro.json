@@ -1,0 +1,20 @@
+{
+  "base": "plan-check",
+  "describe": "The plan blames a library bug that the repro shows does not exist.",
+  "ops": [
+    {
+      "in": "plan.md",
+      "replace_all": "## Solution Approach\n\n**Analysis**\n\nThe cause is a bug in `_equivalence_key` in `openmed/risk/kanon.py`: it computes the wrong k when two releases share a privacy-unit column, which is why no composition fixture exists.\n\n**Proposed Solution**\n\nFix `_equivalence_key` in `openmed/risk/kanon.py`, then add `tests/unit/risk/test_successive_release_fixture.py` asserting the corrected k for each release.\n\n**Implementation Plan**\n\n1. Fix `_equivalence_key`.\n2. Add the test file and run it with `pytest tests/unit/risk/test_successive_release_fixture.py -q`.\n3. Open one PR with `Closes #5295`."
+    },
+    {
+      "in": "Draft plan comment",
+      "replace_all": "The cause is a bug in `_equivalence_key` in `openmed/risk/kanon.py` that miscomputes k across releases. I will fix it and add `tests/unit/risk/test_successive_release_fixture.py` to assert the corrected values."
+    }
+  ],
+  "expect": {
+    "verdict": "reject",
+    "must_not_pass": [
+      "diagnosis"
+    ]
+  }
+}

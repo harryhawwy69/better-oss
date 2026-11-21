@@ -1,0 +1,17 @@
+{
+  "base": "repro-check",
+  "describe": "The report drops its environment section (no version, OS, or setup).",
+  "ops": [
+    {
+      "in": "Draft repro report",
+      "regex": "(?s)## Environment\\n.*?(?=\\n## Steps to reproduce)",
+      "with": ""
+    }
+  ],
+  "expect": {
+    "verdict": "reject",
+    "must_not_pass": [
+      "environment-detail"
+    ]
+  }
+}

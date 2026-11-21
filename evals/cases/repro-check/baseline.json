@@ -1,0 +1,8 @@
+{
+  "base": "repro-check",
+  "describe": "A complete claim and repro report for a real issue (the unchanged base).",
+  "ops": [],
+  "expect": {
+    "verdict": "accept"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "base": "repro-check",
+  "describe": "The report replaces its steps with a vague description nobody could rerun.",
+  "ops": [
+    {
+      "in": "Draft repro report",
+      "regex": "(?s)## Steps to reproduce\\n.*?(?=\\n## Expected behavior)",
+      "with": "## Steps to reproduce\n\nI looked around the repo and ran some of the tests. The fixture seems to be missing.\n"
+    }
+  ],
+  "expect": {
+    "verdict": "reject",
+    "must_not_pass": [
+      "steps-rerunnable"
+    ]
+  }
+}

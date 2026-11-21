@@ -1,0 +1,8 @@
+{
+  "base": "pr-precheck",
+  "describe": "The real PR, ready to submit (the unchanged base; ai-disclosure passes through the repo's no-attribution rule).",
+  "ops": [],
+  "expect": {
+    "verdict": "accept"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "base": "issue-select",
+  "describe": "Same issue, but an outside contributor claimed it two days ago and no maintainer answered.",
+  "ops": [
+    {
+      "in": "Issue",
+      "find": "Comments: none. Linked pull requests: none.",
+      "with": "Comments: 1. Linked pull requests: none.\n\nComment by an outside contributor on 2026-11-19: \"I'd like to work on this one. I'll open a PR this week.\" No maintainer has replied."
+    }
+  ],
+  "expect": {
+    "verdict": "reject",
+    "must_not_pass": [
+      "unclaimed"
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "base": "issue-select",
+  "describe": "Same issue, but the repository has had no activity for months and nobody answers issues.",
+  "ops": [
+    {
+      "in": "Repository facts",
+      "replace_all": "Repository: example-org/example-lib (Apache-2.0). Default branch: master. Stars: 5832. Archived: no.\nNewest five default-branch commits: 2025-02-11, 2025-02-03, 2025-01-28, 2025-01-20, 2025-01-09, all by the maintainer.\nLatest release: v3.1.0, published 2024-12-02.\nMaintainer first-response sample (recent issues opened by someone other than the maintainer): three recent issues have no maintainer reply; the oldest is 140 days old.\nThis issue was opened by the repository owner, who labelled it `help wanted` and `good first issue`."
+    }
+  ],
+  "expect": {
+    "verdict": "reject",
+    "must_not_pass": [
+      "maintainer-alive"
+    ]
+  }
+}

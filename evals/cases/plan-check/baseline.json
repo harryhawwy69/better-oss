@@ -1,0 +1,8 @@
+{
+  "base": "plan-check",
+  "describe": "A bounded, tested plan that follows from the repro (the unchanged base).",
+  "ops": [],
+  "expect": {
+    "verdict": "accept"
+  }
+}

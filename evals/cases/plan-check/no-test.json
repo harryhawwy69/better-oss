@@ -1,0 +1,20 @@
+{
+  "base": "plan-check",
+  "describe": "The plan has no new test, only 'run the existing suite'.",
+  "ops": [
+    {
+      "in": "plan.md",
+      "replace_all": "## Solution Approach\n\n**Analysis**\n\nThe gap is in the test data, not the code. `tests/fixtures/risk/` has no fixture with two releases of one population (my repro showed `kanon_report` works and the existing 35 tests pass).\n\n**Proposed Solution**\n\nAdd exactly what issue #5295 asks for and change no library code.\n\n- `tests/fixtures/risk/successive_releases_v1.jsonl`: a `meta` row and two releases of 20-40 synthetic rows with a shared `privacy_unit_id` column.\n- `tests/fixtures/risk/README.md`: a paragraph describing the format and the expected intersection result.\n\nNot changing `openmed/risk/`, the existing fixtures, or the existing tests.\n\n**Implementation Plan**\n\n1. Branch from the latest `master`.\n2. Write the fixture.\n3. Add the README paragraph.\n4. Run the existing suite (`pytest tests/unit/risk -q`) and check it still passes.\n5. Open one PR with `Closes #5295`."
+    },
+    {
+      "in": "Draft plan comment",
+      "replace_all": "The gap is in the test data, not in the code: there is no fixture with two releases of one population.\n\nI plan to add `tests/fixtures/risk/successive_releases_v1.jsonl` and a README paragraph describing it, and nothing in `openmed/risk/`. I will run the existing risk tests to make sure nothing breaks.\n\nComposition scoring stays out of scope."
+    }
+  ],
+  "expect": {
+    "verdict": "reject",
+    "must_not_pass": [
+      "test"
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "base": "pr-precheck",
+  "describe": "The test evidence is replaced by 'tested locally, all tests pass'.",
+  "ops": [
+    {
+      "in": "Test evidence",
+      "replace_all": "Tested locally. Everything passes."
+    },
+    {
+      "in": "Draft PR description",
+      "regex": "(?s)## Testing\\n.*?(?=\\n## Documentation)",
+      "with": "## Testing\n- [x] I have added tests that prove my fix is effective or that my feature works\n- [x] New and existing unit tests pass locally with my changes\n\nTested locally, all tests pass.\n"
+    }
+  ],
+  "expect": {
+    "verdict": "reject",
+    "must_not_pass": [
+      "test-evidence"
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "base": "issue-select",
+  "describe": "Same issue, but the work needs a datacenter GPU to run.",
+  "ops": [
+    {
+      "in": "Issue",
+      "find": "Add a test that checks each release alone with `kanon_report` and asserts the committed per-release k values.",
+      "with": "Add a test that runs the release comparison on an NVIDIA A100 GPU (CUDA 12) and asserts the committed per-release k values. It cannot run on CPU."
+    }
+  ],
+  "expect": {
+    "verdict": "reject",
+    "must_not_pass": [
+      "no-special-hardware"
+    ]
+  }
+}

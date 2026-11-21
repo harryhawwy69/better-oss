@@ -1,0 +1,20 @@
+{
+  "base": "plan-check",
+  "describe": "The plan names no files and no boundary: 'whatever turns out to be involved'.",
+  "ops": [
+    {
+      "in": "plan.md",
+      "replace_all": "## Solution Approach\n\n**Analysis**\n\nThe gap is in the test data, not the code: my repro showed `kanon_report` works and no two-release fixture exists.\n\n**Proposed Solution**\n\nImprove the risk tests and fixtures as needed. I will update the risk package, its tests and its docs wherever it turns out to be useful, and may refactor `kanon_report` along the way.\n\n**Implementation Plan**\n\n1. Look through the risk package and decide what to change.\n2. Make the changes and add tests where it makes sense, checking with `pytest tests/unit/risk -q`.\n3. Open a PR."
+    },
+    {
+      "in": "Draft plan comment",
+      "replace_all": "I'll improve the risk tests and fixtures, touching whatever turns out to be involved, and add tests where it makes sense."
+    }
+  ],
+  "expect": {
+    "verdict": "reject",
+    "must_not_pass": [
+      "scope"
+    ]
+  }
+}

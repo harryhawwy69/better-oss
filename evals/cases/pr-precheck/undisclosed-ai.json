@@ -1,0 +1,22 @@
+{
+  "base": "pr-precheck",
+  "describe": "The repo requires AI-use disclosure, and the description has none.",
+  "ops": [
+    {
+      "in": "The repo's commit and PR rules",
+      "regex": "(?s)Recent history uses concise imperative commits.*?(?=\\n\\nBefore pushing)",
+      "with": "Recent history uses concise imperative commits. Keep commits and PRs focused on the requested change. Pull requests must disclose any AI assistance: name the tool and say how it was used, in the PR description."
+    },
+    {
+      "in": "Draft PR description",
+      "regex": "- AI-use statement: not included[^\\n]*\\n",
+      "with": ""
+    }
+  ],
+  "expect": {
+    "verdict": "reject",
+    "must_not_pass": [
+      "ai-disclosure"
+    ]
+  }
+}
