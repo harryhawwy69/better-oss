@@ -40,9 +40,6 @@ gh repo edit --add-topic claude-code --add-topic claude-code-plugin --add-topic 
              --add-topic open-source --add-topic automation
 ```
 
-**Starter issues.** [`starter-issues.md`](starter-issues.md) has drafts of good
-first issues. Create them, then delete that file.
-
 ## Triage
 
 1. Reproduce it, or ask for the missing piece and add `needs-repro`.

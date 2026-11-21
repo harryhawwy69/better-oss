@@ -6,8 +6,9 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
-First public version (`0.0.1`). Move these entries under a dated `0.0.1` heading
-when it is released.
+## [0.0.1] - 2026-11-21
+
+First public release.
 
 ### Added
 
