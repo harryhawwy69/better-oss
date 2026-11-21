@@ -1,0 +1,39 @@
+{
+  "name": "better-oss",
+  "version": "0.0.1",
+  "description": "Installer for the better-oss Claude Code plugin: skills and guardrail hooks for making robust, reliable open source contributions.",
+  "bin": {
+    "better-oss": "bin/better-oss.js"
+  },
+  "files": [
+    "bin",
+    "defaults",
+    "README.md"
+  ],
+  "scripts": {
+    "prepack": "node scripts/sync-defaults.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "claude-code",
+    "claude-code-plugin",
+    "open-source",
+    "contributions",
+    "agents",
+    "github"
+  ],
+  "author": "Eric Michel",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mobeloper/better-oss.git",
+    "directory": "cli"
+  },
+  "homepage": "https://github.com/mobeloper/better-oss#readme",
+  "bugs": {
+    "url": "https://github.com/mobeloper/better-oss/issues"
+  }
+}
