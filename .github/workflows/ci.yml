@@ -15,7 +15,10 @@ concurrency:
 jobs:
   python:
     name: Python ${{ matrix.python }}
-    runs-on: ubuntu-latest
+    # 24.04, not latest: setup-python cannot find a 3.9 build for Ubuntu 26.04
+    # ("The version '3.9' with architecture 'x64' was not found"), so the job
+    # failed before running anything. 24.04 still ships 3.9 and 3.13.
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
