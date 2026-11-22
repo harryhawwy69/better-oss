@@ -245,7 +245,7 @@ function init(opts) {
 
   let failed = false;
   if (opts.plugin) {
-    if (claudeMissing) {
+    if (claudeMissing && !opts.dryRun) {
       console.error('plugin: skipped, the claude CLI is not on PATH. Install Claude Code, then run this again.');
       failed = true;
     } else if (!installPlugin(opts)) {
