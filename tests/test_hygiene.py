@@ -75,3 +75,15 @@ def test_no_tracked_symlinks_in_this_repo():
 def test_a_diff_line_with_a_decorator_is_not_an_email(tmp_path):
     lines = ["+@pytest.mark.parametrize('x', [1])", "@pytest.mark.skip"]
     assert leak(make_repo(tmp_path, {"d.md": "\n".join(lines) + "\n"})).returncode == 0
+
+
+def test_a_package_version_is_not_an_email(tmp_path):
+    """npm's `pkg@1.2.3` is a version, not an address.
+
+    The repository's own roadmap says `better-oss-cli@0.0.1 is on npm`, and the
+    check read `better-oss-cli@0.0.1` as `better-oss-cli@0.0.1` with domain
+    `0.0.1`, which sent CI red on every pull request. A domain with no letters
+    is not a domain.
+    """
+    repo = make_repo(tmp_path, {"a.md": "better-oss-cli@0.0.1 is on npm\n"})
+    assert leak(repo).returncode == 0, leak(repo).stdout
