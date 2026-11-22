@@ -80,6 +80,11 @@ def scan(root: Path):
                 local, domain = m.group(1), m.group(2).lower()
                 if local == "git" or domain.endswith(FAKE_EMAIL_DOMAINS):
                     continue
+                # `pkg@1.2.3` is npm's version notation, not an address: a
+                # domain of digits and dots has no letters, and reading it as
+                # one sent the check red over this repository's own roadmap.
+                if not any(ch.isalpha() for ch in domain):
+                    continue
                 hits.append((rel, n, "email address", mask(m.group(0))))
             if extra_re and rel not in exempt:
                 m = extra_re.search(line)
