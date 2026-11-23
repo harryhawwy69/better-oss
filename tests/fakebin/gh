@@ -1,0 +1,33 @@
+#!/bin/sh
+# A fake GitHub CLI for the pr-monitor tests.
+#
+# The monitor runs gh only through its read-only allowlist (gh_read refuses
+# anything else before it exists), so this answers exactly those forms and
+# refuses the rest, which is what makes "the monitor never posts" testable:
+# a command outside the allowlist exits non-zero with the refusal.
+#
+#   FAKE_GH_LOGIN       the logged-in user (default "someone")
+#   FAKE_GH_NO_PR        set to make `gh pr view` fail as no-PR-yet
+#   FAKE_GH_PR_JSON     the PR object `gh pr view --json ...` prints
+#   FAKE_GH_AUTH_EXIT   exit code for `gh auth status` (default 0)
+if [ "$1" = "auth" ]; then
+  exit "${FAKE_GH_AUTH_EXIT:-0}"
+fi
+if [ "$1" = "api" ] && [ "$2" = "user" ]; then
+  printf '%s\n' "${FAKE_GH_LOGIN:-someone}"
+  exit 0
+fi
+if [ "$1" = "pr" ] && [ "$2" = "view" ]; then
+  if [ -n "${FAKE_GH_NO_PR:-}" ]; then
+    echo "no pull requests found for branch" >&2
+    exit 1
+  fi
+  printf '%s\n' "${FAKE_GH_PR_JSON:-{\}}"
+  exit 0
+fi
+if [ "$1" = "repo" ] && [ "$2" = "view" ]; then
+  printf '{"nameWithOwner":"example-org/example-lib"}\n'
+  exit 0
+fi
+echo "fake gh: refused $*" >&2
+exit 1
