@@ -18,6 +18,9 @@ MONITOR = ROOT / "core" / "pr_monitor" / "monitor.py"
 INIT = ROOT / "core" / "init.py"
 SKILLS = ["issue-scout", "issue-select", "repro-check", "plan-check", "pr-precheck"]
 
+# The fake `claude` the model paths use; see tests/fakebin/claude.
+FAKEBIN = Path(__file__).resolve().parent / "fakebin"
+
 
 @pytest.fixture
 def home(tmp_path):
@@ -34,6 +37,32 @@ def run_script(home):
         env.update(env_extra or {})
         return subprocess.run([sys.executable, str(script), *args], input=stdin, text=True,
                               capture_output=True, cwd=cwd or home, env=env, timeout=60)
+    return run
+
+
+@pytest.fixture
+def fake_claude(run_script):
+    """Put the fake CLI first on PATH and return a runner that sets its verdict.
+
+    `run(script, ...)` behaves like the `run_script` fixture and additionally
+    reads FAKE_CLAUDE_VERDICT, FAKE_CLAUDE_JSON and FAKE_CLAUDE_EXIT, so a test
+    picks the model's answer instead of paying for one.
+    """
+    assert os.access(FAKEBIN / "claude", os.X_OK), \
+        "tests/fakebin/claude is not executable"
+
+    def run(script, args=(), stdin="", cwd=None, verdict=None, json_body=None,
+            exit_code=None, env_extra=None):
+        env = {**os.environ, "PATH": f"{FAKEBIN}:{os.environ['PATH']}"}
+        if verdict is not None:
+            env["FAKE_CLAUDE_VERDICT"] = verdict
+        if json_body is not None:
+            env["FAKE_CLAUDE_JSON"] = json.dumps(json_body)
+        if exit_code is not None:
+            env["FAKE_CLAUDE_EXIT"] = str(exit_code)
+        env.update(env_extra or {})
+        return run_script(script, args=args, stdin=stdin, cwd=cwd, env_extra=env)
+
     return run
 
 
