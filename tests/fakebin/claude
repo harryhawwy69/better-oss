@@ -19,7 +19,11 @@ if [ -n "${FAKE_CLAUDE_EXIT:-}" ]; then
   echo "fake claude: exiting ${FAKE_CLAUDE_EXIT} on purpose" >&2
   exit "$FAKE_CLAUDE_EXIT"
 fi
-if [ -n "${FAKE_CLAUDE_JSON:-}" ]; then
+# The pr-monitor reads the draft as plain text; the guards read a fenced JSON
+# verdict. Which one a test needs is the variable it sets.
+if [ -n "${FAKE_CLAUDE_TEXT:-}" ]; then
+  printf '%s\n' "$FAKE_CLAUDE_TEXT"
+elif [ -n "${FAKE_CLAUDE_JSON:-}" ]; then
   printf '```json\n%s\n```\n' "$FAKE_CLAUDE_JSON"
 else
   printf '```json\n{"verdict": "%s"}\n```\n' "${FAKE_CLAUDE_VERDICT:-pass}"
