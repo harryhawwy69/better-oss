@@ -1,6 +1,6 @@
 {
   "name": "better-oss-cli",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Installer for the better-oss Claude Code plugin: skills and guardrail hooks for making robust, reliable open source contributions.",
   "bin": {
     "better-oss-cli": "bin/better-oss.js"

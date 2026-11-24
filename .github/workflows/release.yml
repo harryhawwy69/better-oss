@@ -56,7 +56,8 @@ jobs:
           fi
           python scripts/release_tools.py notes "${TAG#v}" > notes.md
           flags=""
-          case "$TAG" in v0.*) flags="--prerelease";; esac
+          # Only a semver pre-release tag (for example v0.2.0-rc.1) is marked as one.
+          case "$TAG" in *-*) flags="--prerelease";; esac
           gh release create "$TAG" --verify-tag --title "$TAG" --notes-file notes.md $flags
 
   publish:
