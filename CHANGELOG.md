@@ -6,9 +6,13 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-11-23
+
+First production release.
+
 ### Added
 
-- A test suite (`pytest`, 72 tests, no model calls) covering the hooks' exit
+- A test suite (`pytest`, no model calls) covering the hooks' exit
   codes and fail-closed behavior, the plugin and hook manifests, every skill's
   structure and rubric, the shipped defaults, the docs and their links, and the
   release tooling.
@@ -21,6 +25,22 @@ All notable changes to this project are documented here. The format follows
   creates the GitHub release from this changelog, and publishes the installer to
   npm after a maintainer approves it.
 - `ruff.toml` (targets Python 3.9) and `pytest.ini`.
+- An evaluation suite in `evals/`: 18 frozen cases, each a real worked run with one
+  deliberate flaw, with a harness that checks the skills catch it
+  (`python3 evals/run_evals.py`; `--dry-run` needs no model).
+- Tests for the installer's `claude plugin install` path, for the guards' model
+  decision paths using a fake `claude`, and for the pr-monitor's drafting path,
+  all runnable without credentials (thanks to @volt69506-eng).
+- A public roadmap (`docs/ROADMAP.md`) and the open issues it links to.
+
+### Fixed
+
+- `better-oss-cli init --dry-run` now shows the plugin command even when `claude`
+  is not installed (@snehaapratap).
+- CI: the Python 3.9 job is pinned to a runner that still ships Python 3.9
+  (@volt69506-eng).
+- The leak check no longer mistakes a package version for an email address
+  (@volt69506-eng).
 
 ## [0.0.1] - 2026-11-21
 
